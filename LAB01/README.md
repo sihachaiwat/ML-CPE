@@ -8,22 +8,22 @@ add +missing values,+outliner in dataset for learning data cleaning
 
 ## What should i do
 - Part 1: Data Exploration
-    Load Dataset 
-    Display Shape 
-    Display Data Types 
-    Display Summary Statistics 
-    Display Missing Values 
-    Display Duplicate Records 
-    Display Class Distribution 
+    - Load Dataset 
+    - Display Shape 
+    - Display Data Types 
+    - Display Summary Statistics 
+    - Display Missing Values 
+    - Display Duplicate Records 
+    - Display Class Distribution 
 - Part 2: Data Visualization
-    Histogram
-    Correlation Heatmap 
+    - Histogram
+    - Correlation Heatmap 
 - Part 3: Data Cleaning
-    Incorrect Data Correction
-    Missing Value Handling 
-    Duplicate Removal  
-    Data Type Conversion
+    - Incorrect Data Correction
+    - Missing Value Handling 
+    - Duplicate Removal  
+    - Data Type Conversion
 - Part 4: Feature Engineering
-    Label Encoding  
-    One-Hot Encoding  
-
+    - Label Encoding  
+    - One-Hot Encoding  
+    
