@@ -7,7 +7,7 @@ Data preprocessing is a crucial step that prepares data for practical use, enabl
 automobile_dataset.csv (5500 rows, 18 columns)
 A synthetic automobile dataset containing vehicle specifications, ownership hist
 
-## What should i do
+## Topic
 - Part 1: Data Exploration
     - Load Dataset 
         - Load the file with pd.read_csv() and view the .head()

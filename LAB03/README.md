@@ -6,7 +6,7 @@ Lab 3 covers how to build models that predict outcomes from data - Regression fo
 automobile_dataset_cleaned.csv (5500 rows, 62 columns)
 The cleaned and encrypted dataset generated in LAB02 is reused here
 
-## What should i do
+## Topic
 - Part 1: Regression
     - Simple Linear Regression
         - X = Year, y = Selling_Price
