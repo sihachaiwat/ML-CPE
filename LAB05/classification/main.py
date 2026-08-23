@@ -10,8 +10,8 @@ from split_data import split_dataset
 from svm_model import train_svm, predict_svm
 from evaluate import evaluate_model
 
-DATA_PATH = "Cats-and-Dogs/PetImages"
-OUTPUT_DIR = "outputs"
+DATA_PATH = "DataImages"
+OUTPUT_DIR = "classification/outputs"
 IMG_SIZE = 100
 TEST_SIZE = 0.2
 MAX_PER_CLASS = 3000   # None = use all images (very slow)
@@ -20,7 +20,7 @@ MAX_PER_CLASS = 3000   # None = use all images (very slow)
 def main():
 
     print("--" * 30)
-    print("SVM Image Recognition: Cat vs Dog")
+    print("SVM Image Recognition: Bike vs Car")
     print("--" * 30)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)

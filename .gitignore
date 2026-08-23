@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# LAB05
+LAB05/DataImages/Bike/
+LAB05/DataImages/Car/
+LAB05/classification/outputs/

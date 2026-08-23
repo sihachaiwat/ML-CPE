@@ -12,7 +12,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-OUTPUT_DIR = "outputs"
+OUTPUT_DIR = "classification/outputs"
 IMG_SIZE = 100
 N_SAMPLES = 4
 
