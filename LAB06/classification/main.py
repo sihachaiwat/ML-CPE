@@ -11,7 +11,7 @@ from evaluate import evaluate_model, plot_history
 
 # Paths are relative to this file, so the script runs from any directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.join(BASE_DIR, "..", "PetImages")
+DATA_PATH = os.path.join(BASE_DIR, "..", "DataImages")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
 IMG_SIZE = 100
@@ -25,7 +25,7 @@ BATCH_SIZE = 32
 def main():
 
     print("--" * 30)
-    print("Neural Network Image Recognition: Cat vs Dog")
+    print("Neural Network Image Recognition: Apple leaf healthy vs diseased")
     print("--" * 30)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
