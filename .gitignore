@@ -221,3 +221,8 @@ __marimo__/
 LAB05/DataImages/Bike/
 LAB05/DataImages/Car/
 LAB05/classification/outputs/
+
+# LAB06
+LAB06/classification/outputs/*
+!LAB06/classification/outputs/*.png
+LAB06/DataImages/
