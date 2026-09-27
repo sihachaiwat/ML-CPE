@@ -27,5 +27,3 @@ def preprocess_image(image, img_size=100):
 def to_features(images):
 
     return np.ascontiguousarray(images, dtype=np.uint8)
-
-

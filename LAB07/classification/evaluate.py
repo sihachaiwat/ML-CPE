@@ -1,5 +1,8 @@
 import matplotlib
 
+import json
+import matplotlib.ticker as mtick
+
 # Set backend before pyplot, so it works without a display
 matplotlib.use("Agg")
 
@@ -89,5 +92,40 @@ def plot_history(history, save_path):
 
     fig.tight_layout()
     fig.savefig(save_path, dpi=150)
+    plt.close(fig)
+    print(f"Saved: {save_path}")
+
+def plot_batch_comparison(history_files, labels, save_path):
+    fig, ax = plt.subplots(figsize=(8, 5))
+    colors = ['#00B050', '#FF0000', '#00FFFF', '#FFC000']
+    
+    for i, (hist_file, label) in enumerate(zip(history_files, labels)):
+        with open(hist_file, 'r') as f:
+            history_data = json.load(f)
+        
+        val_acc_pct = [acc * 100 for acc in history_data['val_accuracy']]
+        ax.plot(
+            range(1, len(val_acc_pct) + 1), 
+            val_acc_pct, 
+            label=label, 
+            color=colors[i % len(colors)], 
+            linewidth=2
+        )
+
+    ax.set_xlabel("Epoch", fontsize=12, fontweight='bold')
+    ax.set_ylabel("Test accuracy top-1", fontsize=12, fontweight='bold')
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter(decimals=0))
+    ax.set_ylim([0, 100])
+    ax.set_yticks(range(0, 101, 20))
+    ax.grid(axis='y', linestyle='--', alpha=0.5)
+    ax.legend(
+        loc='upper center', 
+        bbox_to_anchor=(0.5, 1.15), 
+        ncol=len(labels), 
+        edgecolor='black'
+    )
+    
+    fig.tight_layout(rect=[0, 0, 1, 0.85])
+    fig.savefig(save_path, dpi=200)
     plt.close(fig)
     print(f"Saved: {save_path}")

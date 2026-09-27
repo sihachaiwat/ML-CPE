@@ -18,8 +18,9 @@ def build_model(input_shape, num_classes):
         # Light augmentation, only active during training.
         # This is what keeps a small CNN from memorising the training set.
         layers.RandomFlip("horizontal"),
-        layers.RandomRotation(0.1),
-        layers.RandomZoom(0.1),
+        layers.RandomRotation(0.2),
+        layers.RandomZoom(0.2),
+        layers.RandomContrast(0.2),
 
         layers.Conv2D(32, 3, padding="same", activation="relu"),
         layers.BatchNormalization(),
@@ -35,9 +36,9 @@ def build_model(input_shape, num_classes):
 
         # Pooling instead of Flatten keeps the dense head small
         layers.GlobalAveragePooling2D(),
-        layers.Dropout(0.3),
+        layers.Dropout(0.5),
         layers.Dense(128, activation="relu"),
-        layers.Dropout(0.3),
+        layers.Dropout(0.5),
 
         # 1 sigmoid output for 2 classes, softmax otherwise
         layers.Dense(
@@ -47,7 +48,7 @@ def build_model(input_shape, num_classes):
     ])
 
     model.compile(
-        optimizer=keras.optimizers.Adam(1e-3),
+        optimizer=keras.optimizers.Adam(1e-4),
         loss="binary_crossentropy" if num_classes == 2
              else "sparse_categorical_crossentropy",
         metrics=["accuracy"],
@@ -66,7 +67,7 @@ def train_model(X_train, y_train, X_val, y_val, num_classes,
     callbacks = [
         # Stop when validation loss stops improving, keep the best weights
         keras.callbacks.EarlyStopping(
-            monitor="val_loss", patience=5, restore_best_weights=True
+            monitor="val_loss", patience=10, restore_best_weights=True
         ),
         keras.callbacks.ReduceLROnPlateau(
             monitor="val_loss", factor=0.5, patience=3, min_lr=1e-5
