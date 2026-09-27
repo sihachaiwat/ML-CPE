@@ -113,7 +113,7 @@ def plot_batch_comparison(history_files, labels, save_path):
         )
 
     ax.set_xlabel("Epoch", fontsize=12, fontweight='bold')
-    ax.set_ylabel("Test accuracy top-1", fontsize=12, fontweight='bold')
+    ax.set_ylabel("Accuracy", fontsize=12, fontweight='bold')
     ax.yaxis.set_major_formatter(mtick.PercentFormatter(decimals=0))
     ax.set_ylim([0, 100])
     ax.set_yticks(range(0, 101, 20))
