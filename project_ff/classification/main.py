@@ -17,15 +17,15 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 IMG_SIZE = 100
 TEST_SIZE = 0.2
 VAL_SIZE = 0.1
-MAX_PER_CLASS = 700   # None = use all images
-EPOCHS = 20
+MAX_PER_CLASS = None  # None = use all images
+EPOCHS = 30
 BATCH_SIZE = 64
 
 
 def main():
 
     print("--" * 30)
-    print("Fruit Ripeness Unripe / Ripe / Overripe")
+    print("Fruit Ripeness Unripe / Ripe ")
     print("--" * 30)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)

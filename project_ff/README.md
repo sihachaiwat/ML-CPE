@@ -1,5 +1,5 @@
 # Fruit Ripeness Detection
-project for classifying fruit ripeness (Unripe, Ripe, Overripe)
+project for classifying fruit ripeness (Unripe, Ripe)
 ## Structure
 ```text
 project_ff/
@@ -28,7 +28,7 @@ project_ff/
 ## Setup
 1. Create virtual environment and install dependencies:
    `pip install -r requirements.txt`
-2. Place your images in `data/unripe`, `data/ripe`, `data/overripe`.
+2. Place your images in `data/unripe`, `data/ripe`
 
 ## How to Run
 - To train the model: 
