@@ -226,3 +226,8 @@ LAB05/classification/outputs/
 LAB06/classification/outputs/*
 !LAB06/classification/outputs/*.png
 LAB06/DataImages/
+
+# LAB07
+LAB07/classification/outputs/*
+!LAB07/classification/outputs/*.png
+LAB07/dataImages/
