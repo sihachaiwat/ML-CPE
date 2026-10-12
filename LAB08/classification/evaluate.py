@@ -89,3 +89,28 @@ def plot_history(history, save_path):
     fig.savefig(save_path, dpi=150)
     plt.close(fig)
     print(f"Saved: {save_path}")
+
+def plot_model_comparison(histories_dict, save_path):
+    fig, ax = plt.subplots(figsize=(8, 4))
+    
+    colors = ['#00b050', '#ff0000', '#00ffff'] 
+    
+    for i, (name, history) in enumerate(histories_dict.items()):
+        color = colors[i % len(colors)]
+
+        ax.plot(history.history["val_accuracy"], label=name, color=color, linewidth=2)
+
+    ax.set_xlabel("Epoch", fontweight='bold')
+    ax.set_ylabel("Validation Accuracy", fontweight='bold')
+    ax.set_title("Model Comparison (Accuracy)")
+    ax.legend()
+    
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    
+    ax.set_ylim([0, 1.0])
+    ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0))
+
+    fig.tight_layout()
+    fig.savefig(save_path, dpi=150)
+    plt.close(fig)
+    print(f"Saved comparison plot: {save_path}")

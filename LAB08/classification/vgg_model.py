@@ -10,6 +10,9 @@ VGG16 = [(64, 2), (128, 2), (256, 3), (512, 3), (512, 3)]
 # Lighter variant for CPU training / small datasets.
 VGG_SMALL = [(32, 2), (64, 2), (128, 3), (256, 3)]
 
+# เพิ่ม Model ที่ 3: ขนาดเล็กมาก (ประหยัดเวลาเทรนบน Celeron)
+VGG_MICRO = [(16, 2), (32, 2), (64, 2)]
+
 def vgg_block(model, filters, n_conv):
     """n_conv x (Conv3x3 -> BatchNorm) then halve the resolution."""
 
@@ -65,7 +68,7 @@ def train_model(X_train, y_train, X_val, y_val, num_classes,
 
     callbacks = [
         keras.callbacks.EarlyStopping(
-            monitor="val_loss", patience=8, restore_best_weights=True
+            monitor="val_loss", patience=15, restore_best_weights=True
         ),
         keras.callbacks.ReduceLROnPlateau(
             monitor="val_loss", factor=0.5, patience=4, min_lr=1e-6

@@ -1,98 +1,82 @@
 import json
 import os
-
 import numpy as np
 
 from data_loader import load_data
 from preprocessing import to_features
 from split_data import split_dataset
-from vgg_model import train_model, predict_model, VGG16, VGG_SMALL
-from evaluate import evaluate_model, plot_history
 
-# Paths are relative to this file, so the script runs from any directory
+from vgg_model import train_model, predict_model, VGG16, VGG_SMALL, VGG_MICRO
+from evaluate import evaluate_model, plot_history, plot_model_comparison
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, "..", "dataImages")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
-IMG_SIZE = 64
+IMG_SIZE = 224
 TEST_SIZE = 0.2
 VAL_SIZE = 0.2
-MAX_PER_CLASS = 100   # None = use all images
-EPOCHS = 20
-BATCH_SIZE = 64
-
-# VGG16 = full 13-conv layout. VGG_SMALL = lighter, for CPU training.
-BLOCKS = VGG16
-
+MAX_PER_CLASS = 1500
+EPOCHS = 100
+BATCH_SIZE = 16
 
 def main():
-
     print("--" * 30)
     print("VGG (Deep CNN) Image Recognition Leaf Diseases")
     print("--" * 30)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # Step 1: Load Dataset
-    print("\n[Step 1] Loading dataset...")
+    # Step 1-3: Load, Preprocess, Split 
+    print("\n[Step 1-3] Loading and Preparing dataset...")
     images, labels, classes = load_data(DATA_PATH, IMG_SIZE, MAX_PER_CLASS)
-
     np.save(f"{OUTPUT_DIR}/labels.npy", labels)
     with open(f"{OUTPUT_DIR}/classes.json", "w") as f:
         json.dump(classes, f)
 
-    print("\nDataset loaded successfully.")
-    print(f"Total images : {len(images)}")
-    print(f"Classes      : {classes}")
-
-    # Step 2: Preprocessing
-    print("\n[Step 2] Preprocessing images...")
-
     X = to_features(images)
     y = labels
-
     np.save(f"{OUTPUT_DIR}/features.npy", X)
 
-    print(f"Feature shape: {X.shape}")
+    X_train, X_val, X_test, y_train, y_val, y_test = split_dataset(X, y, TEST_SIZE, VAL_SIZE)
 
-    # Step 3: Split Dataset
-    print("\n[Step 3] Splitting dataset...")
-
-    X_train, X_val, X_test, y_train, y_val, y_test = split_dataset(
-        X, y, TEST_SIZE, VAL_SIZE
-    )
-
-    np.save(f"{OUTPUT_DIR}/X_train.npy", X_train)
-    np.save(f"{OUTPUT_DIR}/X_val.npy", X_val)
     np.save(f"{OUTPUT_DIR}/X_test.npy", X_test)
-    np.save(f"{OUTPUT_DIR}/y_train.npy", y_train)
-    np.save(f"{OUTPUT_DIR}/y_val.npy", y_val)
     np.save(f"{OUTPUT_DIR}/y_test.npy", y_test)
+    
+    models_to_test = {
+        "Model_1_VGG16": VGG16,
+        "Model_2_Small": VGG_SMALL,
+        "Model_3_Micro": VGG_MICRO
+    }
+    
+    histories = {}
+    best_accuracy = 0
+    best_model_name = ""
 
-    print(f"Training samples  : {len(X_train)}")
-    print(f"Validation samples: {len(X_val)}")
-    print(f"Testing samples   : {len(X_test)}")
+    # Step 4-6: Train, Predict, Evaluate 
+    for model_name, blocks in models_to_test.items():
+        print(f"\n>>> Training {model_name} <<<")
+        model, history = train_model(
+            X_train, y_train, X_val, y_val, len(classes),
+            output_dir=f"{OUTPUT_DIR}/{model_name}", epochs=EPOCHS, batch_size=BATCH_SIZE, blocks=blocks
+        )
+        histories[model_name] = history
+        plot_history(history, f"{OUTPUT_DIR}/{model_name}_history.png")
+        predictions = predict_model(model, X_test)
+        print(f"\nEvaluating {model_name}...")
+        acc = evaluate_model(y_test, predictions, classes, save_path=f"{OUTPUT_DIR}/{model_name}_cm.png")
+        
+        if acc > best_accuracy:
+            best_accuracy = acc
+            best_model_name = model_name
+            # save best model
+            model.save(os.path.join(OUTPUT_DIR, "best_model.keras"))
 
-    # Step 4: Train Model
-    print("\n[Step 4] Training model...")
+    print("\n" + "="*40)
+    print(f"WINNER: {best_model_name} (Accuracy: {best_accuracy * 100:.2f}%)")
+    print("="*40)
 
-    model, history = train_model(
-        X_train, y_train, X_val, y_val, len(classes),
-        OUTPUT_DIR, EPOCHS, BATCH_SIZE, BLOCKS
-    )
-
-    print("Training completed.")
-
-    # Step 5: Prediction
-    print("\n[Step 5] Testing model...")
-    predictions = predict_model(model, X_test)
-
-    # Step 6: Evaluation
-    print("\n[Step 6] Evaluating model...")
-    evaluate_model(y_test, predictions, classes,
-                   save_path=f"{OUTPUT_DIR}/confusion_matrix.png")
-    plot_history(history, f"{OUTPUT_DIR}/training_history.png")
-
+    plot_model_comparison(histories, f"{OUTPUT_DIR}/comparison_graph.png")
 
 if __name__ == "__main__":
     main()

@@ -12,13 +12,13 @@ from tensorflow import keras
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
-N_SAMPLES = 4
+N_SAMPLES = 9
 
 
 def test_vgg(n_samples=N_SAMPLES):
 
     # Load model and test set
-    model = keras.models.load_model(f"{OUTPUT_DIR}/vgg_model.keras")
+    model = keras.models.load_model(f"{OUTPUT_DIR}/best_model.keras")
     X_test = np.load(f"{OUTPUT_DIR}/X_test.npy")
     y_test = np.load(f"{OUTPUT_DIR}/y_test.npy")
     with open(f"{OUTPUT_DIR}/classes.json") as f:
