@@ -1,0 +1,2 @@
+Dataset Source: PlantVillage Dataset 
+URL: https://github.com/spMohanty/PlantVillage-Dataset/tree/master
