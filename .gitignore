@@ -236,3 +236,6 @@ LAB07/dataImages/
 LAB08/classification/outputs/*
 !LAB08/classification/outputs/*.png
 LAB08/dataImages/
+
+# LAB09
+LAB09/dataset/
